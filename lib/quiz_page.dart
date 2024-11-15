@@ -294,16 +294,36 @@ class _QuizPageState extends State<QuizPage> {
   }
 
   void checkAnswer(String selectedOption) {
-    if (selectedOption == selectedQuestions[currentQuestionIndex]['answer']) {
-      setState(() {
-        score++;
-      });
-    }
+  if (selectedOption == selectedQuestions[currentQuestionIndex]['answer']) {
     setState(() {
-      answeredQuestions.add(currentQuestionIndex);
-      currentQuestionIndex++;
+      score++;
+      if (score == 10 || score == 20 || score == 30) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text("Selamat!"),
+              content: const Text("Anda telah mencapai skor Sempurna!"),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text("Lanjutkan"),
+                ),
+              ],
+            );
+          },
+        );
+      }
     });
   }
+  
+  setState(() {
+    answeredQuestions.add(currentQuestionIndex);
+    currentQuestionIndex++;
+  });
+}
 
   List<String> _shuffledOptions(int questionIndex) {
     final options = List<String>.from(
