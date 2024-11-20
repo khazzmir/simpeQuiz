@@ -69,7 +69,7 @@ class _MainPageState extends State<MainPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => QuizLvl1Page(), // Halaman tujuan
+                      builder: (context) => const QuizLvl1Page(),
                     ),
                   );
                 },
@@ -150,7 +150,7 @@ class _MainPageState extends State<MainPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const QuizPage(), // Halaman tujuan
+                      builder: (context) => const QuizPage(),
                     ),
                   );
                 },

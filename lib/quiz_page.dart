@@ -393,135 +393,137 @@ class _QuizPageState extends State<QuizPage> {
           backgroundColor: Colors.transparent,
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              'Soal ${currentQuestionIndex + 1}/${questions.length}',
-              style: GoogleFonts.poppins(fontSize: 18),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              currentQuestion['question'] as String,
-              textAlign: TextAlign.center,
-              style: GoogleFonts.poppins(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                'Soal ${currentQuestionIndex + 1}/${questions.length}',
+                style: GoogleFonts.poppins(fontSize: 18),
               ),
-            ),
-            const SizedBox(height: 20),
-            ...((currentQuestion['options'] as List<String>).map((option) {
-              final isSelected = currentQuestion['userAnswer'] == option;
-              final isCorrect = option == currentQuestion['answer'];
-
-              return GestureDetector(
-                onTap: currentQuestion['userAnswer'] == null
-                    ? () => checkAnswer(option)
-                    : null,
-                child: Container(
-                  width: double.maxFinite,
-                  margin: const EdgeInsets.symmetric(vertical: 5),
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: currentQuestion['userAnswer'] != null
-                        ? isSelected
-                            ? ((currentQuestion['isCorrect'] as bool? ?? false)
-                                ? Colors.green
-                                : Colors.red)
-                            : (isCorrect ? Colors.green : Colors.white)
-                        : Colors.white,
-                    border: Border.all(color: const Color(0xFF4AA7EC)),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Text(
-                    option,
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.poppins(
-                      fontSize: 16,
-                      color: Colors.black,
-                    ),
-                  ),
+              const SizedBox(height: 10),
+              Text(
+                currentQuestion['question'] as String,
+                textAlign: TextAlign.center,
+                style: GoogleFonts.poppins(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
                 ),
-              );
-            }).toList()),
-            const SizedBox(height: 68),
-            Wrap(
-              spacing: 6,
-              runSpacing: 10,
-              alignment: WrapAlignment.center,
-              children: List.generate(questions.length, (index) {
-                final question = questions[index];
-                final isAnswered =
-                    question['userAnswer'] != null;
-                final isCorrect = question['isCorrect'] != null &&
-                        question['isCorrect'] is bool
-                    ? question['isCorrect'] as bool
-                    : false;
+              ),
+              const SizedBox(height: 20),
+              ...((currentQuestion['options'] as List<String>).map((option) {
+                final isSelected = currentQuestion['userAnswer'] == option;
+                final isCorrect = option == currentQuestion['answer'];
+        
                 return GestureDetector(
-                  onTap: () => goToQuestion(index),
+                  onTap: currentQuestion['userAnswer'] == null
+                      ? () => checkAnswer(option)
+                      : null,
                   child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 5),
-                    width: 30,
-                    height: 30,
+                    width: double.maxFinite,
+                    margin: const EdgeInsets.symmetric(vertical: 5),
+                    padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      color: index == currentQuestionIndex
-                          ? (isAnswered
-                              ? (isCorrect ? Colors.green : Colors.red)
-                              : Colors.grey)
-                          : isAnswered
-                              ? (isCorrect
-                                  ? Colors.green.withOpacity(0.5)
-                                  : Colors.red.withOpacity(0.5))
-                              : Colors.grey.withOpacity(0.5),
-                      borderRadius: BorderRadius.circular(10),
+                      color: currentQuestion['userAnswer'] != null
+                          ? isSelected
+                              ? ((currentQuestion['isCorrect'] as bool? ?? false)
+                                  ? Colors.green
+                                  : Colors.red)
+                              : (isCorrect ? Colors.green : Colors.white)
+                          : Colors.white,
+                      border: Border.all(color: const Color(0xFF4AA7EC)),
+                      borderRadius: BorderRadius.circular(8),
                     ),
-                    child: Center(
-                      child: Text(
-                        '${index + 1}',
-                        style: GoogleFonts.poppins(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
+                    child: Text(
+                      option,
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.poppins(
+                        fontSize: 16,
+                        color: Colors.black,
                       ),
                     ),
                   ),
                 );
-              }),
-            ),
-            const SizedBox(height: 20),
-            if (questions[currentQuestionIndex]['userAnswer'] != null &&
-                showFunFactButton)
-              ElevatedButton(
-                onPressed: () {
-                  final funFact =
-                      questions[currentQuestionIndex]['funFact'] as String;
-                  showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      title: const Text('Fun Fact'),
-                      content: Text(funFact),
-                      actions: [
-                        TextButton(
-                          onPressed: () => Navigator.pop(context),
-                          child: const Text('Tutup'),
+              }).toList()),
+              const SizedBox(height: 68),
+              Wrap(
+                spacing: 6,
+                runSpacing: 10,
+                alignment: WrapAlignment.center,
+                children: List.generate(questions.length, (index) {
+                  final question = questions[index];
+                  final isAnswered =
+                      question['userAnswer'] != null;
+                  final isCorrect = question['isCorrect'] != null &&
+                          question['isCorrect'] is bool
+                      ? question['isCorrect'] as bool
+                      : false;
+                  return GestureDetector(
+                    onTap: () => goToQuestion(index),
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 5),
+                      width: 30,
+                      height: 30,
+                      decoration: BoxDecoration(
+                        color: index == currentQuestionIndex
+                            ? (isAnswered
+                                ? (isCorrect ? Colors.green : Colors.red)
+                                : Colors.grey)
+                            : isAnswered
+                                ? (isCorrect
+                                    ? Colors.green.withOpacity(0.5)
+                                    : Colors.red.withOpacity(0.5))
+                                : Colors.grey.withOpacity(0.5),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Center(
+                        child: Text(
+                          '${index + 1}',
+                          style: GoogleFonts.poppins(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ],
+                      ),
                     ),
                   );
-                },
-                child: const Text('Show Fun Fact'),
+                }),
               ),
-            const SizedBox(height: 20),
-            if (currentQuestionIndex == questions.length - 1 &&
-                questions.every((q) => q['userAnswer'] != null))
-              ElevatedButton(
-                onPressed: finishQuiz,
-                child: const Text('Finish'),
-              ),
-          ],
+              const SizedBox(height: 20),
+              if (questions[currentQuestionIndex]['userAnswer'] != null &&
+                  showFunFactButton)
+                ElevatedButton(
+                  onPressed: () {
+                    final funFact =
+                        questions[currentQuestionIndex]['funFact'] as String;
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: const Text('Fun Fact'),
+                        content: Text(funFact),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: const Text('Tutup'),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  child: const Text('Show Fun Fact'),
+                ),
+              const SizedBox(height: 20),
+              if (currentQuestionIndex == questions.length - 1 &&
+                  questions.every((q) => q['userAnswer'] != null))
+                ElevatedButton(
+                  onPressed: finishQuiz,
+                  child: const Text('Finish'),
+                ),
+            ],
+          ),
         ),
       ),
     );
