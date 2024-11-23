@@ -312,17 +312,6 @@ class _QuizPageState extends State<QuizPage> {
     );
   }
 
-  void nextQuestion() {
-    setState(() {
-      selectedAnswer = null;
-      isAnswerCorrect = null;
-      showFunFactButton = false;
-      if (currentQuestionIndex < questions.length - 1) {
-        currentQuestionIndex++;
-      }
-    });
-  }
-
   void goToQuestion(int index) {
     setState(() {
       currentQuestionIndex = index;
