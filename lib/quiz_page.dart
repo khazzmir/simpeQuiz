@@ -413,6 +413,7 @@ class _QuizPageState extends State<QuizPage> {
                       flex: 2,
                       child: Container(
                         padding: const EdgeInsets.all(24),
+                        height: screenHeight * 0.85,
                         decoration: BoxDecoration(
                             boxShadow: [
                               BoxShadow(
