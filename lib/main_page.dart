@@ -19,7 +19,7 @@ class MainPage extends StatelessWidget {
         child: AppBar(
           title: Center(
             child: Text(
-              "Kuis Hidrasi $screenWidth",
+              "Kuis Hidrasi",
               style: GoogleFonts.poppins(
                 color: Colors.white,
                 fontSize: 25,

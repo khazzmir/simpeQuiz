@@ -384,7 +384,7 @@ class _QuizPageState extends State<QuizPage> {
         child: AppBar(
           title: Center(
             child: Text(
-              "QUIZZZZ $screenWidth",
+              "QUIZZZZ",
               style: GoogleFonts.poppins(
                 color: Colors.white,
                 fontSize: 25,
