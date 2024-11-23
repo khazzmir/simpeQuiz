@@ -3,29 +3,27 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:simple_quiz/quiz_lvl_1_page.dart';
 import 'package:simple_quiz/quiz_page.dart';
 
-class MainPage extends StatefulWidget {
+class MainPage extends StatelessWidget {
   const MainPage({super.key});
 
   @override
-  State<MainPage> createState() => _MainPageState();
-}
-
-class _MainPageState extends State<MainPage> {
-  @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    bool isTablet = screenWidth >= 650 && screenWidth < 1024;
+    bool isDesktop = screenWidth >= 1024;
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(100),
         child: AppBar(
           title: Center(
-            child: Center(
-              child: Text(
-                "Kuis Hidrasi",
-                style: GoogleFonts.poppins(
-                  color: Colors.white,
-                  fontSize: 25,
-                  fontWeight: FontWeight.w600,
-                ),
+            child: Text(
+              "Kuis Hidrasi $screenWidth",
+              style: GoogleFonts.poppins(
+                color: Colors.white,
+                fontSize: 25,
+                fontWeight: FontWeight.w600,
               ),
             ),
           ),
@@ -41,272 +39,324 @@ class _MainPageState extends State<MainPage> {
         ),
       ),
       body: SingleChildScrollView(
-        child: Container(
-          padding: const EdgeInsets.only(left: 24, right: 24, bottom: 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              RichText(
-                  text: TextSpan(
-                      style: GoogleFonts.poppins(),
-                      children: <TextSpan>[
-                    TextSpan(
-                        text: "Ayo Mulai\n",
-                        style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 30,
-                            color: const Color(0xFF0984E1))),
-                    TextSpan(
-                      text: "jawab seluruh kuisnya !!!",
-                      style: GoogleFonts.poppins(
-                          fontSize: 18,
-                          color: const Color(0xFF369CE9).withOpacity(0.75),
-                          height: 1.2),
-                    )
-                  ])),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const QuizLvl1Page(),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+          child: isDesktop
+              ? _buildDesktopLayout(context)
+              : (isTablet
+                  ? _buildTabletLayout(context)
+                  : _buildMobileLayout(context)),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDesktopLayout(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildHeader(),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+                child: _buildLevelCard(
+                    level: 1,
+                    title: "Wajib Diketahui",
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const QuizLvl1Page(),
+                        ),
+                      );
+                    },
+                    imagePath: "img_lvl_1.png",
+                    height: 500,
+                    heightBox: 450,
+                    backgroundBox: 'assets/box_desktop.png',
+                    fontSizeTitle: 30,
+                    fontSizeSubtitle: 35,
+                    paddingIcon: const EdgeInsets.only(left: 24, top: 250),
+                    imageHeight: 350,
+                    imageWidth: 300)),
+            const SizedBox(width: 16),
+            Expanded(
+                child: _buildLevelCard(
+                    level: 2,
+                    title: "10 Soal Random",
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const QuizPage(),
+                        ),
+                      );
+                    },
+                    imagePath: "img_lvl_2.png",
+                    height: 500,
+                    heightBox: 450,
+                    backgroundBox: 'assets/box_desktop.png',
+                    fontSizeTitle: 30,
+                    fontSizeSubtitle: 35,
+                    paddingIcon: const EdgeInsets.only(left: 24, top: 250),
+                    imageHeight: 350,
+                    imageWidth: 300)),
+        const SizedBox(width: 16),
+        Expanded(
+          child: _buildLevelCard(
+              level: 3,
+              title: "20 Soal Random",
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const QuizPage(
+                      numberOfQuestions: 20,
                     ),
-                  );
-                },
-                child: Container(
-                  height: 252,
-                  width: double.maxFinite,
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        bottom: 0,
-                        left: 0,
-                        right: 0,
-                        child: Container(
-                          height: 165,
-                          width: double.maxFinite,
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                                image: AssetImage('assets/bg_level.png'),
-                                fit: BoxFit.fill),
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 24),
-                                child: Image.asset(
-                                  'assets/icon_play.png',
-                                  width: 40,
-                                  height: 40,
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 24, top: 10),
-                                child: RichText(
-                                    text: TextSpan(
-                                        style: GoogleFonts.poppins(),
-                                        children: <TextSpan>[
-                                      TextSpan(
-                                          text: "Level 1\n",
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 20,
-                                            color: Colors.white,
-                                          )),
-                                      TextSpan(
-                                        text: "Wajib Diketahui",
-                                        style: GoogleFonts.poppins(
-                                            fontSize: 24,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w600,
-                                            height: 1.2),
-                                      )
-                                    ])),
-                              ),
-                            ],
-                          ),
+                  ),
+                );
+              },
+              imagePath: "img_lvl_3.png",
+              height: 500,
+              heightBox: 450,
+              backgroundBox: 'assets/box_desktop.png',
+                    fontSizeTitle: 30,
+                    fontSizeSubtitle: 35,
+                    paddingIcon: const EdgeInsets.only(left: 24, top: 250),
+                    imageHeight: 350,
+                    imageWidth: 300),
+        ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTabletLayout(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildHeader(),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+                child: _buildLevelCard(
+                    level: 1,
+                    title: "Wajib Diketahui",
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const QuizLvl1Page(),
                         ),
-                      ),
-                      Positioned(
-                        top: 0,
-                        right: 13,
-                        bottom: 10,
-                        child: Container(
-                          height: 242,
-                          width: 200,
-                          decoration: const BoxDecoration(
-                              image: DecorationImage(
-                                  image: AssetImage('assets/img_lvl_1.png'))),
+                      );
+                    },
+                    imagePath: "img_lvl_1.png")),
+            const SizedBox(width: 16),
+            Expanded(
+                child: _buildLevelCard(
+                    level: 2,
+                    title: "10 Soal Random",
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const QuizPage(),
                         ),
-                      )
-                    ],
+                      );
+                    },
+                    imagePath: "img_lvl_2.png")),
+          ],
+        ),
+        const SizedBox(width: 16),
+        Center(
+          child: _buildLevelCard(
+              level: 3,
+              title: "20 Soal Random",
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const QuizPage(
+                      numberOfQuestions: 20,
+                    ),
+                  ),
+                );
+              },
+              imagePath: "img_lvl_3.png",
+              width: 500),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildMobileLayout(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildHeader(),
+        _buildLevelCard(
+            level: 1,
+            title: "Wajib Diketahui",
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const QuizLvl1Page(),
+                ),
+              );
+            },
+            imagePath: "img_lvl_1.png"),
+        const SizedBox(height: 16),
+        _buildLevelCard(
+            level: 2,
+            title: "10 Soal Random",
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const QuizPage(),
+                ),
+              );
+            },
+            imagePath: "img_lvl_2.png"),
+        const SizedBox(height: 16),
+        _buildLevelCard(
+            level: 3,
+            title: "20 Soal Random",
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const QuizPage(
+                    numberOfQuestions: 20,
                   ),
                 ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const QuizPage(),
-                    ),
-                  );
-                },
-                child: Container(
-                  margin: const EdgeInsets.only(top: 59),
-                  height: 216,
-                  width: double.maxFinite,
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        bottom: 0,
-                        left: 0,
-                        right: 0,
-                        child: Container(
-                          height: 165,
-                          width: double.maxFinite,
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                                image: AssetImage('assets/bg_level.png'),
-                                fit: BoxFit.fill),
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 24),
-                                child: Image.asset(
-                                  'assets/icon_play.png',
-                                  width: 40,
-                                  height: 40,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 24, top: 10),
-                                child: RichText(
-                                    text: TextSpan(
-                                        style: GoogleFonts.poppins(),
-                                        children: <TextSpan>[
-                                      TextSpan(
-                                          text: "Level 2\n",
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 20,
-                                            color: Colors.white,
-                                          )),
-                                      TextSpan(
-                                        text: "10 Soal Random",
-                                        style: GoogleFonts.poppins(
-                                            fontSize: 24,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w600,
-                                            height: 1.2),
-                                      )
-                                    ])),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        top: 0,
-                        right: 10,
-                        child: Container(
-                          height: 164,
-                          width: 200,
-                          decoration: const BoxDecoration(
-                              image: DecorationImage(
-                                  image: AssetImage('assets/img_lvl_2.png'))),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const QuizPage(numberOfQuestions: 20,),
-                    ),
-                  );
-                },
-                child: Container(
-                  margin: const EdgeInsets.only(top: 79),
-                  height: 196,
-                  width: double.maxFinite,
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        bottom: 0,
-                        left: 0,
-                        right: 0,
-                        child: Container(
-                          height: 165,
-                          width: double.maxFinite,
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                                image: AssetImage('assets/bg_level.png'),
-                                fit: BoxFit.fill),
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 24),
-                                child: Image.asset(
-                                  'assets/icon_play.png',
-                                  width: 40,
-                                  height: 40,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 24, top: 10),
-                                child: RichText(
-                                    text: TextSpan(
-                                        style: GoogleFonts.poppins(),
-                                        children: <TextSpan>[
-                                      TextSpan(
-                                          text: "Level 3\n",
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 20,
-                                            color: Colors.white,
-                                          )),
-                                      TextSpan(
-                                        text: "20 Soal Random",
-                                        style: GoogleFonts.poppins(
-                                            fontSize: 24,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w600,
-                                            height: 1.2),
-                                      )
-                                    ])),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        top: 0,
-                        right: 10,
-                        child: Container(
-                          height: 133,
-                          width: 200,
-                          decoration: const BoxDecoration(
-                              image: DecorationImage(
-                                  image: AssetImage('assets/img_lvl_3.png'))),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              )
-            ],
+              );
+            },
+            imagePath: "img_lvl_3.png"),
+      ],
+    );
+  }
+
+  Widget _buildHeader() {
+    return RichText(
+      text: TextSpan(
+        style: GoogleFonts.poppins(),
+        children: <TextSpan>[
+          TextSpan(
+            text: "Ayo Mulai\n",
+            style: GoogleFonts.poppins(
+              fontWeight: FontWeight.w600,
+              fontSize: 30,
+              color: const Color(0xFF0984E1),
+            ),
           ),
+          TextSpan(
+            text: "jawab seluruh kuisnya !!!",
+            style: GoogleFonts.poppins(
+              fontSize: 18,
+              color: const Color(0xFF369CE9).withOpacity(0.75),
+              height: 1.2,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLevelCard({
+    required int level,
+    required String title,
+    required VoidCallback onTap,
+    required String imagePath,
+    double width = double.infinity,
+    double height = 252,
+    double heightBox = 165,
+    String backgroundBox = 'assets/bg_level.png',
+    double fontSizeTitle = 20,
+    double fontSizeSubtitle = 24,
+    double imageHeight = 242,
+    double imageWidth = 200,
+    EdgeInsetsGeometry paddingIcon = const EdgeInsets.only(left: 24),
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        height: height,
+        width: width,
+        child: Stack(
+          children: [
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                height: heightBox,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(backgroundBox),
+                    fit: BoxFit.fill,
+                  ),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: paddingIcon,
+                      child: Image.asset(
+                        'assets/icon_play.png',
+                        width: 40,
+                        height: 40,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 24, top: 10),
+                      child: RichText(
+                        text: TextSpan(
+                          style: GoogleFonts.poppins(),
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: "Level $level\n",
+                              style: GoogleFonts.poppins(
+                                fontSize: fontSizeTitle,
+                                color: Colors.white,
+                              ),
+                            ),
+                            TextSpan(
+                              text: title,
+                              style: GoogleFonts.poppins(
+                                fontSize: fontSizeSubtitle,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                                height: 1.2,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Positioned(
+              top: 0,
+              right: 13,
+              child: Container(
+                height: imageHeight,
+                width: imageWidth,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/$imagePath'),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
