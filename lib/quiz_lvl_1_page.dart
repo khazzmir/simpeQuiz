@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:simple_quiz/questions.dart';
 
 class QuizLvl1Page extends StatefulWidget {
   const QuizLvl1Page({super.key});
@@ -9,81 +10,6 @@ class QuizLvl1Page extends StatefulWidget {
 }
 
 class _QuizLvl1PageState extends State<QuizLvl1Page> {
-  final List<Map<String, Object?>> questions = [
-    {
-      'question': 'Berapa persen tubuh manusia terdiri dari air?',
-      'options': [
-        '30-40%',
-        '50-60%',
-        '70-80%',
-        '90-100%',
-      ],
-      'answer': '50-60%',
-      'funFact':
-          'Air membentuk sekitar 60% dari berat tubuh manusia. Organ tubuh seperti otak dan jantung bahkan terdiri dari sekitar 73% air, sementara paru-paru mengandung sekitar 83% air! Ini menunjukkan betapa pentingnya air untuk fungsi organ vital kita.',
-      'userAnswer': null,
-      'isCorrect': null,
-    },
-    {
-      'question': 'Apa gejala umum dehidrasi ringan pada tubuh?',
-      'options': [
-        'Pusing, lelah, dan mulut kering',
-        'Penurunan suhu tubuh',
-        'Penurunan nafsu makan',
-        'Nyeri otot mendadak',
-      ],
-      'answer': 'Pusing, lelah, dan mulut kering',
-      'funFact':
-          'Dehidrasi ringan tidak hanya menyebabkan gejala seperti lelah dan mulut kering, tetapi juga dapat memengaruhi konsentrasi dan suasana hati. Bahkan penurunan hidrasi tubuh sebesar 1-2% saja dapat berdampak pada kemampuan berpikir!',
-      'userAnswer': null,
-      'isCorrect': null,
-    },
-    {
-      'question':
-          'Berapa jumlah rata-rata air yang disarankan untuk diminum orang dewasa setiap hari?',
-      'options': [
-        '1 liter',
-        '1.5 liter',
-        '2-3 liter',
-        '4 liter',
-      ],
-      'answer': '2-3 liter',
-      'funFact':
-          'Jumlah air yang dibutuhkan tubuh bisa bervariasi tergantung usia, jenis kelamin, dan aktivitas fisik. Namun, sebagian besar cairan yang kita butuhkan tidak hanya berasal dari air minum, tetapi juga dari makanan seperti buah-buahan dan sayuran yang tinggi kandungan airnya.',
-      'userAnswer': null,
-      'isCorrect': null,
-    },
-    {
-      'question': 'Apa fungsi utama air dalam tubuh manusia?',
-      'options': [
-        'Memberikan energi secara langsung',
-        'Mengatur suhu tubuh dan membantu pencernaan',
-        'Meningkatkan kadar gula darah',
-        'Membantu tubuh memproduksi vitamin',
-      ],
-      'answer': 'Mengatur suhu tubuh dan membantu pencernaan',
-      'funFact':
-          'Air berperan sebagai "pendingin alami" tubuh. Saat kita berkeringat, air membantu tubuh menjaga suhu tetap stabil, terutama selama cuaca panas atau saat berolahraga. Selain itu, air juga membantu mengangkut nutrisi dan membuang limbah dari tubuh.',
-      'userAnswer': null,
-      'isCorrect': null,
-    },
-    {
-      'question':
-          'Minum air cukup dapat membantu mencegah penyakit berikut ini, kecuali?',
-      'options': [
-        'Batu ginjal',
-        'Infeksi saluran kemih',
-        'Migrain',
-        'Gangguan penglihatan',
-      ],
-      'answer': 'Gangguan penglihatan',
-      'funFact':
-          'Minum air cukup dapat membantu mencegah batu ginjal karena air membantu melarutkan mineral dalam urin, sehingga mencegah pembentukan kristal. Namun, air tidak secara langsung memengaruhi kesehatan penglihatan, kecuali jika tubuh sangat dehidrasi, yang bisa menyebabkan mata kering.',
-      'userAnswer': null,
-      'isCorrect': null,
-    },
-  ];
-
   int currentQuestionIndex = 0;
   String? selectedAnswer;
   bool? isAnswerCorrect;
@@ -91,7 +17,7 @@ class _QuizLvl1PageState extends State<QuizLvl1Page> {
 
   Map<int, String?> userAnswers = {};
 
-  void checkAnswer(String selectedOption) {
+  void _checkAnswer(String selectedOption) {
     final correctAnswer = questions[currentQuestionIndex]['answer'] as String;
     final funFact = questions[currentQuestionIndex]['funFact'] as String;
 
@@ -130,13 +56,13 @@ class _QuizLvl1PageState extends State<QuizLvl1Page> {
     );
   }
 
-  void goToQuestion(int index) {
+  void _goToQuestion(int index) {
     setState(() {
       currentQuestionIndex = index;
     });
   }
 
-  String getMessage(int correctAnswers, int totalQuestions) {
+  String _(int correctAnswers, int totalQuestions) {
     int percentage = ((correctAnswers / totalQuestions) * 100).round();
 
     if (percentage <= 25) {
@@ -150,14 +76,14 @@ class _QuizLvl1PageState extends State<QuizLvl1Page> {
     }
   }
 
-  void finishQuiz() {
+  void _finishQuiz() {
     int correctAnswersCount = questions
         .where((question) =>
             question['isCorrect'] == true && question['isCorrect'] != null)
         .length;
 
     int totalQuestions = questions.length;
-    String message = getMessage(correctAnswersCount, totalQuestions);
+    String message = _(correctAnswersCount, totalQuestions);
 
     showDialog(
       context: context,
@@ -254,14 +180,15 @@ class _QuizLvl1PageState extends State<QuizLvl1Page> {
                                   currentQuestion['userAnswer'] == option;
                               final isCorrect =
                                   option == currentQuestion['answer'];
-        
+
                               return GestureDetector(
                                 onTap: currentQuestion['userAnswer'] == null
-                                    ? () => checkAnswer(option)
+                                    ? () => _checkAnswer(option)
                                     : null,
                                 child: Container(
                                   width: double.maxFinite,
-                                  margin: const EdgeInsets.symmetric(vertical: 5),
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 5),
                                   padding: const EdgeInsets.all(10),
                                   decoration: BoxDecoration(
                                     color: currentQuestion['userAnswer'] != null
@@ -306,14 +233,14 @@ class _QuizLvl1PageState extends State<QuizLvl1Page> {
                                 ),
                                 const SizedBox(width: 10),
                                 ElevatedButton(
-                                  onPressed:
-                                      currentQuestionIndex < questions.length - 1
-                                          ? () {
-                                              setState(() {
-                                                currentQuestionIndex++;
-                                              });
-                                            }
-                                          : null,
+                                  onPressed: currentQuestionIndex <
+                                          questions.length - 1
+                                      ? () {
+                                          setState(() {
+                                            currentQuestionIndex++;
+                                          });
+                                        }
+                                      : null,
                                   child: const Icon(Icons.arrow_forward),
                                 ),
                               ],
@@ -323,7 +250,7 @@ class _QuizLvl1PageState extends State<QuizLvl1Page> {
                                 questions.every((q) => q['userAnswer'] != null))
                               Center(
                                 child: ElevatedButton(
-                                  onPressed: finishQuiz,
+                                  onPressed: _finishQuiz,
                                   child: const Text('Finish'),
                                 ),
                               ),
@@ -366,7 +293,7 @@ class _QuizLvl1PageState extends State<QuizLvl1Page> {
                                             ? question['isCorrect'] as bool
                                             : false;
                                     return GestureDetector(
-                                      onTap: () => goToQuestion(index),
+                                      onTap: () => _goToQuestion(index),
                                       child: Container(
                                         margin: const EdgeInsets.symmetric(
                                             horizontal: 5),
@@ -385,8 +312,10 @@ class _QuizLvl1PageState extends State<QuizLvl1Page> {
                                                           .withOpacity(0.5)
                                                       : Colors.red
                                                           .withOpacity(0.5))
-                                                  : Colors.grey.withOpacity(0.5),
-                                          borderRadius: BorderRadius.circular(10),
+                                                  : Colors.grey
+                                                      .withOpacity(0.5),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
                                         ),
                                         child: Center(
                                           child: Text(
@@ -506,12 +435,13 @@ class _QuizLvl1PageState extends State<QuizLvl1Page> {
                     const SizedBox(height: 20),
                     ...((currentQuestion['options'] as List<String>)
                         .map((option) {
-                      final isSelected = currentQuestion['userAnswer'] == option;
+                      final isSelected =
+                          currentQuestion['userAnswer'] == option;
                       final isCorrect = option == currentQuestion['answer'];
-        
+
                       return GestureDetector(
                         onTap: currentQuestion['userAnswer'] == null
-                            ? () => checkAnswer(option)
+                            ? () => _checkAnswer(option)
                             : null,
                         child: Container(
                           width: double.maxFinite,
@@ -553,7 +483,7 @@ class _QuizLvl1PageState extends State<QuizLvl1Page> {
                             ? question['isCorrect'] as bool
                             : false;
                         return GestureDetector(
-                          onTap: () => goToQuestion(index),
+                          onTap: () => _goToQuestion(index),
                           child: Container(
                             margin: const EdgeInsets.symmetric(horizontal: 5),
                             width: 30,
@@ -646,7 +576,7 @@ class _QuizLvl1PageState extends State<QuizLvl1Page> {
                     if (currentQuestionIndex == questions.length - 1 &&
                         questions.every((q) => q['userAnswer'] != null))
                       ElevatedButton(
-                        onPressed: finishQuiz,
+                        onPressed: _finishQuiz,
                         child: const Text('Finish'),
                       ),
                   ],

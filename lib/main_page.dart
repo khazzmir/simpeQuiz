@@ -102,31 +102,31 @@ class MainPage extends StatelessWidget {
                     paddingIcon: const EdgeInsets.only(left: 24, top: 250),
                     imageHeight: 350,
                     imageWidth: 300)),
-        const SizedBox(width: 16),
-        Expanded(
-          child: _buildLevelCard(
-              level: 3,
-              title: "20 Soal Random",
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const QuizPage(
-                      numberOfQuestions: 20,
-                    ),
-                  ),
-                );
-              },
-              imagePath: "img_lvl_3.png",
-              height: 500,
-              heightBox: 450,
-              backgroundBox: 'assets/box_desktop.png',
-                    fontSizeTitle: 30,
-                    fontSizeSubtitle: 35,
-                    paddingIcon: const EdgeInsets.only(left: 24, top: 250),
-                    imageHeight: 350,
-                    imageWidth: 300),
-        ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: _buildLevelCard(
+                  level: 3,
+                  title: "20 Soal Random",
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const QuizPage(
+                          numberOfQuestions: 20,
+                        ),
+                      ),
+                    );
+                  },
+                  imagePath: "img_lvl_3.png",
+                  height: 500,
+                  heightBox: 450,
+                  backgroundBox: 'assets/box_desktop.png',
+                  fontSizeTitle: 30,
+                  fontSizeSubtitle: 35,
+                  paddingIcon: const EdgeInsets.only(left: 24, top: 250),
+                  imageHeight: 350,
+                  imageWidth: 300),
+            ),
           ],
         ),
       ],
